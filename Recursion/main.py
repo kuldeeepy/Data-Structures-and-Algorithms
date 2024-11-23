@@ -1,130 +1,74 @@
 
-# (Q) Print numbers from 1 to N
+# (Q) Factorial of N
 
-def print_1_to_N(n):
-    if n > 0:
-        print_1_to_N(n-1)
-        print(n)
+def fact(n):
+    if n <= 1:
+        return n
+    return fact(n-1) * n
 
-# print_1_to_N(5)
+# print(fact(5))
 
+# (Q) Fibonacci sequence
 
-# (Q) Print numbers from N to 1
+def fib(n,memo):
+    
+    if n <= 1:
+        return n
+    
+    if n in memo:
+        return memo[n]
+        
+    memo[n] = fib(n-2, memo) + fib(n-1, memo)
+    return memo[n]
 
-def print_N_to_1(n):
-     if n > 0:
-        print(n)
-        print_N_to_1(n-1)
+# print(fib(6,{}))
 
-# print_N_to_1(5)
+# (Q) Sum of digits
 
+def sum(n):
+    if n <= 9:
+        return n
+    return sum(n//10) + (n%10)
 
-# (Q) Factorial
+# print(sum(1234))
 
-def factorial(n):
-    if n <= 0:
+# (Q) Power of n
+
+def pow(a,b):
+    if b == 0:
         return 1
-    return factorial(n-1) * n
-    
-# print(factorial(5))    
+    return pow(a,b-1) * a
 
+# print(pow(2,4))
 
-# (Q) Fibonacci Sequence!
+# (Q) Reverse string
 
-def fibonacci(n):
-    
-    if n == 0: return 0
-    if n == 1: return 1
-    else:
-        return fibonacci(n-1) + fibonacci(n-2)
-
-# print(fibonacci(6))
-
-
-# (Q) Print Fibonacci Series!
-
-def fibonacci_series(n, a=0, b=1):
-
-    if a > n:
-        return
-    
-    print(a, end=' ')
-    fibonacci_series(n, b, a+b)
-
-# fibonacci_series(20)
-
-
-# (Q) Sum of Digits!
-
-def sum_of_digits(nums):
-    
-    if nums < 9:
-        return nums
-    return sum_of_digits(nums // 10) + (nums % 10)
-
-# print(sum_of_digits(1234))
-
-
-# (Q) Reverse a String!
-
-def reverse_string(str, idx=0):
-
-    if idx == len(str):
+def reverse(s, n):
+    if n == 0:
         return ''
-    return reverse_string(str, idx + 1) + str[idx]
+    return s[n-1] + reverse(s,n-1) 
 
-# print(reverse_string('kuldeep'))
+# print(reverse('hello', len('hello')))
 
+# (Q) Chek palindrome
 
-# (Q) Power Calculation!
+def palindrome(string, i):
 
-def get_power(base, exp):
+    if i >= len(string) // 2:
+        return True
+    
+    if string[i] != string[len(string) - i - 1]:
+        return False
+    return palindrome(string, i+1)
 
-    if exp <= 0:
-        return 1
-    return get_power(base, exp-1) * (base)
+# print(palindrome('radar',0))
+# print(palindrome('hello',0))
 
-# print(get_power(2,3))
+# (Q) Greatest Common Divisor (GCD)
 
+def get_GCD(a,b):
+    if b == 0:
+        return a
+    return get_GCD(b , a % b)
 
-# (Q) Array Sum!
-
-def array_sum(arr, idx=0):
-
-    if idx == len(arr):
-        return 0
-    return arr[idx] + array_sum(arr, idx+1)
-
-# print(array_sum([1,2,3,4,5]))
-
-
-# (Q) Palindrome Check!
-
-def palindrome_check(str, idx=0):
-
-    if idx == len(str):
-        return ''
-    rev_string = palindrome_check(str, idx+1) + str[idx]
-    return rev_string
-
-# print(palindrome_check('maam') == 'maam')  
-
-
-# (Q) String Permutations!
-
-def permute(string, l, r):
-
-    if l == r:
-        print(''.join(string))
-    else:
-        for i in range(l, r+1):
-            string[l], string[i] = string[i], string[l]
-            permute(string, l+1, r)
-            string[l], string[i] = string[i], string[l]
-
-# str = "abc"
-# permute(list(str), 0, len(str)-1)
-
-
-# (Q) Tower of Hanoi!
-
+# print(get_GCD(48,18))
