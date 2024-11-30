@@ -268,7 +268,7 @@ def isPrime(n):
 # print(isPrime(17))
 
 
-# (Q7) GCD or HCF
+# (Q8) GCD or HCF
 
 # Approach 1 
 def GcdHcf(n1, n2):
@@ -289,3 +289,191 @@ def GcdHcf2(n1, n2):
 
 # GcdHcf(20, 40)
 # print(GcdHcf2(20, 40))
+
+
+# (Q9) print something N times
+
+def printNtimes(n):
+
+    if n == 0: return
+    print("Recursion!")
+    printNtimes(n-1)
+
+# printNtimes(5)
+
+
+# (Q10) print name N times
+
+def printNameN(i, n):
+    if i >= n: return
+    print("Hello, kuldeep!")
+    printNameN(i+1, n)
+
+# printNameN(0,5)
+
+
+# (Q11) print 1 to N 
+
+def print1ToN(n):
+    if n == 0: return
+    print1ToN(n-1)
+    print(n)
+
+# print1ToN(5)
+
+
+# (Q12) print N to 1 
+
+def printNTo1(n):
+    if n == 0: return
+    print(n)
+    printNTo1(n-1)
+
+# printNTo1(5)
+
+
+# (Q13) print N to 1 
+
+def sumOfN(n):
+    if n == 0: return 0
+    return n + sumOfN(n-1) 
+
+# print(sumOfN(6))
+
+
+# (Q14) factorial of a numb
+
+def factorialOfN(n):
+    if n == 0: return 1
+    return n * factorialOfN(n-1)
+
+# print(factorialOfN(3))
+
+
+# (Q15) Reverse an array
+
+# Approach 1 
+def reverseArray(n, arr):
+    p1, p2 = 0, n-1
+
+    while (p1 < p2):
+        arr[p1], arr[p2] = arr[p2], arr[p1]
+        p1+=1
+        p2-=1
+    return arr
+
+# print(reverseArray(5, [5,4,3,2,1]))
+
+# Approach 2
+def reverseArray2(start, end, arr):
+    if (start < end):
+        arr[start], arr[end] = arr[end], arr[start]
+        reverseArray2(start+1, end-1, arr)
+    return arr
+
+# print(reverseArray2(0, 4, [5,4,3,2,1]))
+
+
+# (Q16) Check palindrome (string)
+
+# Approach 1
+def checkPalindrom(string):
+    p1, p2 = 0, len(string)-1
+
+    while p1 < p2:
+        if string[p1] !=  string[p2]:
+            print("Not Palindrome")
+            return
+        p1 += 1
+        p2 -= 1
+    print("Palindrome")
+
+# Approach 1
+def checkPalindrom2(i, string):
+    if i > len(string) //2:
+        return True
+    if string[i] != string[len(string)-i-1]:
+        return False
+    return checkPalindrom2(i+1, string)
+
+# checkPalindrom("maam")
+# print(checkPalindrom2(0, "racecar"))
+
+
+# (Q17) fibonacci series upto N
+
+# Approach 1 
+def fibonacci(n):
+
+    fib = [0] * (n+1)
+    fib[0] = 0
+    fib[1] = 1
+
+    for i in range(2,n+1):
+        fib[i] = fib[i-1] + fib[i-2]
+    print(fib)
+    
+# Approach 2 
+def fibonacci2(n):
+    last = 0
+    secondLast = 1
+    print(last, secondLast, end=' ')
+
+    for i in range(2, n+1):
+        curr = last + secondLast
+        last = secondLast
+        secondLast = curr
+        print(curr, end=' ')
+
+# Approach 3
+def fibonacci3(n, a=0, b=1):
+    if a > n: 
+        return
+    print(a, end=" ")
+    fibonacci3(n, b, a+b)
+
+# fibonacci(6)
+# fibonacci2(6)
+# (fibonacci3(6))
+
+
+# (Q18) count freq of array elements (int)
+
+def countFreq(n, arr, target):
+    hash = [0] * (n+1)
+
+    for i in range(n):
+        hash[arr[i]] += 1
+    return hash[target]
+
+# print(countFreq(5, [1,4,5,2,2]))
+
+
+# (Q19) count freq of string elements (str)
+
+def countFreq2(s, q):
+    hash = [0] * 26
+
+    for chr in s:
+        hash[ord(chr) - ord('a')] += 1
+    return hash[ord(q)-ord('a')]
+
+# print(countFreq2("abcdabehf", 'h'))
+
+
+# (Q20) Find the highest/lowest frequency element
+
+def highLowFreq(arr):
+    hash = {}
+
+    for num in arr:
+        hash[num] = hash.get(num, 0) +1
+    max_freq = max(hash.values())
+    min_freq = min(hash.values())
+
+    max_val = [key for key, val in hash.items() if val == max_freq]
+    min_val = [key for key, val in hash.items() if val == min_freq]
+    print(*max_val, *min_val)
+
+# highLowFreq([10, 5, 10, 15, 10, 5])
+
