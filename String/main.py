@@ -284,179 +284,107 @@ def frequencySort(s):
 
 # print(frequencySort("tree"))
 
-# (Q10) Top K Frequent Elements
 
-# Approach 1 
-def topKFrequent(nums, k):
-    map, arr, res = {}, [], []
-    for num in nums:
-        if num in map: map[num] += 1
-        else: map[num] = 1
+# (Q10) Count of Distinct Substring
 
-    for num,cnt in map.items():
-        arr.append([cnt,num])
-    arr.sort()
-    
-    while len(res) < k:
-        res.append(arr.pop()[1])
-    return res
+def countSubstr(s):
+    seen = set()
+    start, count = 0, 0
 
-# Approach 2
-def topKFrequent2(nums, k):
-    map, res = {}, []
-    freq = [[] for _ in range(len(nums)+1)]
-    for num in nums:
-        if num in map: map[num] += 1
-        else: map[num] = 1
+    for end in range(len(s)):
+        while s[end] in seen:
+            seen.remove(s[start])
+            start += 1
+        seen.add(s[end])
+        count += (end-start +1)
+    return count
 
-    for num,cnt in map.items():
-        freq[cnt].append(num)
-
-    for i in range(len(freq)-1, 0, -1):
-        for n in freq[i]: res.append(n)
-        if len(res) == k: return res
-
-# print(topKFrequent2([1,1,1,2,2,3], 2))
+# print(countSubstr('aabcb'))
 
 
-# (Q11) Product of Array Except Self
+# (Q11) subsequ relation betwn 2 strs
 
-# Approach 1 TC O(n^2)
-def productExceptSelf(nums):
+def verifyString(s,t):
+    i, j = 0, 0
+    while i < len(s) and j < len(t):
+        if s[i] == t[j]:
+            i += 1
+            j += 1
+        j += 1
+    return i == len(s)
+
+# print(verifyString("axc", "ahbgdc"))
+
+
+# (Q12) Reverse words in string
+
+# Approach 1 TC: O(n) SC: O(n)
+def reverseWords(string, n):
+    def reverseNow(chars, res):
+        strg = ""
+        for i in range(len(chars)-1,-1,-1):
+            strg += chars[i]
+        res.append(strg)
+
     res = []
-    for i in range(len(nums)):
-        prod = 1
-        for j in range(len(nums)):
-            if nums[i] != nums[j]:
-                prod *= nums[j]
-        res.append(prod)
+    temp_str = string.split()
+    for word in temp_str:
+        reverseNow(word, res)
     return res
 
-# Approach 2 TC O(n)
-def productExceptSelf2(nums):
-    res = [0] * len(nums)
+# Approach 1 TC: 
+def reverseWords2(string, n):
+    return string
 
-    prefix = 1
-    for i in range(len(nums)):
-        res[i] = prefix
-        prefix *= nums[i]
-
-    postfix = 1
-    for i in range(len(nums)-1, -1, -1):
-        res[i] *= postfix
-        postfix *= nums[i]
-    return res
-
-# print(productExceptSelf2([1,2,3,4]))
+# print(reverseWords2("hello world", 11))
 
 
-# (Q12) Longest Consecutive Sequence
+# (Q13) Longest substring without repeat chars
 
-def longestConsecutive(nums):
-    numSet = set(nums)
-    longest = 0
+# Approach 1 TC: O(n^3) SC: O(n)
+def lengthOfLongestSubstr(s):
+    def isUnique(string):
+        chrSet = set()
+        for chr in string:
+            chrSet.add(chr)
+        return string == "".join(chrSet)
 
-    for num in nums:
-        if (num-1) not in numSet:
-            length = 0
-            while (num+length) in numSet:
-                length += 1
-            longest = max(length, longest)
-    return longest
+    mxSubstr = 0
+    for i in range(len(s)):
+        substr = ""
+        for j in range(i,len(s)):
+            substr += s[j]
+            if isUnique(substr) and len(substr) > mxSubstr:
+                mxSubstr = len(substr)
+    return mxSubstr
 
-# print(longestConsecutive([100,4,200,1,3,2]))
+# Approach 1 TC: O(n) SC: O(miin(n,strs))
+def lengthOfLongestSubstr2(s):
+    left = maxLen = 0
+    charSet = set()
+    for right in range(len(s)):
+        while s[right] in charSet:
+            charSet.remove(s[left])
+            left += 1
+        charSet.add(s[right])
+        maxLen = max(maxLen, (right-left)+1)
+    return maxLen
 
-
-# (Q12) 3Sum
-
-# Approach 1 O(n^3)
-def threeSum(nums):
-    res = set()
-    nums.sort()
-    for i in range(len(nums)):
-        for j in range(i+1,len(nums)):
-            for k in range(j+1,len(nums)):
-                if nums[i] + nums[j] + nums[k] == 0:
-                    tmp = [nums[i], nums[j], nums[k]]
-                    res.add(tuple(tmp))
-    return [list(i) for i in res]
-
-# Approach 2 O(n^2)
-def threeSum2(nums):
-    nums.sort()
-    res = []
-    for i in range(len(nums)):
-        if i > 0 and nums[i] == nums[i-1]:
-            continue
-        l, r = i+1, len(nums)-1
-        while l < r:
-            sum = nums[i] + nums[l] + nums[r]
-            if sum > 0: 
-                r -= 1
-            elif sum < 0: 
-                l += 1
-            else: 
-                res.append([nums[i], nums[l], nums[r]])
-                l += 1
-                r -= 1
-                while nums[l] == nums[l-1] and l<r:
-                    l += 1
-    return res
-
-# print(threeSum([-1,0,1,2,-1,-4]))
-# print(threeSum2([1,-1,-1,0]))
+# print(lengthOfLongestSubstr("abcabcbb"))
 
 
-# (Q13) Container With Most Water
+# (Q14) Permutation in String
 
-# Approach 1 O(n^2)
-def maxArea(height):
-    res = []
-    for i in range(len(height)):
-        for j in range(i+1, len(height)):
-            bth = j - i
-            hth = min(height[i], height[j])
-            area = bth * hth
-        res.append(area)
-    return max(res)
-
-# Approach 2 O(n)
-def maxArea2(height):
-    l, r = 0, len(height)-1
-    water = 0
-    while l < r:
-        bth = r - l
-        hth = min(height[l], height[r])
-        area = bth * hth
-        water = max(water, area)
-        if height[l] < height[r]:
-            l += 1
+# Approach 1 TC: SC:
+def checkInclusion(s1,s2):
+    left = 0
+    str = ""
+    for right in range(len(s2)):
+        while s2[right] == s1[left]:
+            str += s2[right]
+            left += 1
         else:
-            r -= 1
-    return water
-
-# print(maxArea2([1,8,6,2,5,4,8,3,7]))
-
-
-# (Q14) Trapping Rain Water
-
-# Approach 1 TC: O(n^2) SC: O(1)
-def trap(height):
-    totalWater = 0
-    for i in range(len(height)):
-        leftMax = rightMax = height[i]
-
-        for a in range(i):
-            leftMax = max(leftMax, height[a])
-
-        for b in range(i+1, len(height)):
-            rightMax = max(rightMax, height[b])
-        totalWater += min(leftMax, rightMax) - height[i]
-    return totalWater
-
-# Approach 1 TC: O(n) SC: O(1)
-def trap2(height):
-    return height
-
-print(trap2([0,1,0,2,1,0,1,3,2,1,2,1]))
-print(trap2([4,2,0,3,2,5]))
+            break
+    return [s1, str]
+    
+print(checkInclusion("ab","eidbaooo"))
